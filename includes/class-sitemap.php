@@ -6,25 +6,26 @@ class Ateculus_SEO_Sitemap {
 	public function __construct() {
 		add_action( 'init',               array( $this, 'add_rewrite_rules' ), 20 );
 		add_filter( 'query_vars',         array( $this, 'add_query_vars' ) );
+		add_filter( 'redirect_canonical', array( $this, 'no_redirect_sitemaps' ), 10, 2 );
 		add_action( 'template_redirect',  array( $this, 'handle_request' ), 10 );
 		add_action( 'save_post',          array( $this, 'flush_on_save' ) );
 		add_action( 'publish_post',       array( $this, 'ping_google' ) );
 	}
 
 	public function add_rewrite_rules() {
-		add_rewrite_rule( '^sitemap\.xml$',              'index.php?aseo_sitemap=index',      'top' );
-		add_rewrite_rule( '^sitemap-posts\.xml$',        'index.php?aseo_sitemap=posts',      'top' );
-		add_rewrite_rule( '^sitemap-pages\.xml$',        'index.php?aseo_sitemap=pages',      'top' );
-		add_rewrite_rule( '^sitemap-images\.xml$',       'index.php?aseo_sitemap=images',     'top' );
-		add_rewrite_rule( '^sitemap-categories\.xml$',   'index.php?aseo_sitemap=categories', 'top' );
-		add_rewrite_rule( '^sitemap-tags\.xml$',         'index.php?aseo_sitemap=tags',       'top' );
+		add_rewrite_rule( '^sitemap\.xml/?$',              'index.php?aseo_sitemap=index',      'top' );
+		add_rewrite_rule( '^sitemap-posts\.xml/?$',        'index.php?aseo_sitemap=posts',      'top' );
+		add_rewrite_rule( '^sitemap-pages\.xml/?$',        'index.php?aseo_sitemap=pages',      'top' );
+		add_rewrite_rule( '^sitemap-images\.xml/?$',       'index.php?aseo_sitemap=images',     'top' );
+		add_rewrite_rule( '^sitemap-categories\.xml/?$',   'index.php?aseo_sitemap=categories', 'top' );
+		add_rewrite_rule( '^sitemap-tags\.xml/?$',         'index.php?aseo_sitemap=tags',       'top' );
 
 		// Dynamic CPT sitemaps
 		$cpts = get_post_types( array( 'public' => true, '_builtin' => false ), 'names' );
 		foreach ( $cpts as $cpt ) {
 			$slug = sanitize_key( $cpt );
 			add_rewrite_rule(
-				'^sitemap-' . $slug . '\.xml$',
+				'^sitemap-' . $slug . '\.xml/?$',
 				'index.php?aseo_sitemap=cpt_' . $slug,
 				'top'
 			);
@@ -34,6 +35,13 @@ class Ateculus_SEO_Sitemap {
 	public function add_query_vars( $vars ) {
 		$vars[] = 'aseo_sitemap';
 		return $vars;
+	}
+
+	public function no_redirect_sitemaps( $redirect_url, $requested_url ) {
+		if ( preg_match( '/sitemap[^?]*\.xml/i', $requested_url ) ) {
+			return false;
+		}
+		return $redirect_url;
 	}
 
 	public function handle_request() {

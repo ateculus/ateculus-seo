@@ -182,6 +182,11 @@ Go to **Ateculus-SEO > Tools** and click **Import from Yoast**. This copies all 
 
 == Changelog ==
 
+= 1.2.5 =
+* Fixed GA4 snippet to use official Google tag format with `<!-- Google tag (gtag.js) -->` comment and multi-line output
+* Fixed sitemap canonical redirect conflict — WordPress no longer 301-redirects sitemap URLs
+* Made trailing slash optional on all sitemap rewrite rules (`/sitemap.xml` and `/sitemap.xml/` both resolve)
+
 = 1.2 =
 * Added Readability Score tab in the SEO meta box (word count, sentence length, subheadings, transition words, paragraph length)
 * Added Bulk SEO Editor — inline edit titles and descriptions for all posts from one screen

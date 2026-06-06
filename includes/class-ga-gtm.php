@@ -21,8 +21,14 @@ class Ateculus_SEO_GA_GTM {
 
 		if ( $ga4_id ) {
 			$ga4_id = esc_js( $ga4_id );
+			echo '<!-- Google tag (gtag.js) -->' . "\n";
 			echo '<script async src="https://www.googletagmanager.com/gtag/js?id=' . esc_attr( $ga4_id ) . '"></script>' . "\n";
-			echo '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag(\'js\',new Date());gtag(\'config\',\'' . $ga4_id . '\');</script>' . "\n";
+			echo '<script>' . "\n";
+			echo '  window.dataLayer = window.dataLayer || [];' . "\n";
+			echo '  function gtag(){dataLayer.push(arguments);}' . "\n";
+			echo '  gtag(\'js\', new Date());' . "\n";
+			echo '  gtag(\'config\', \'' . $ga4_id . '\');' . "\n";
+			echo '</script>' . "\n";
 		}
 
 		if ( $gtm_id ) {
