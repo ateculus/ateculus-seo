@@ -4,6 +4,9 @@
  * Plugin URI:  https://ateculus.com
  * Description: Lightweight SEO tools for posts/pages, XML sitemaps, redirects, schema, and analytics integration.
  * Version:     1.2.4
+ * Requires at least: 6.0
+ * Tested up to:      7.0
+ * Requires PHP:      8.0
  * Author:      Ateculus
  * Author URI:  https://ateculus.com
  * License:     Ateculus Source License 1.0
