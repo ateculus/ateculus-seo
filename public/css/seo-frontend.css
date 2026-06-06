@@ -1,0 +1,100 @@
+/* Ateculus-SEO Front-end Styles */
+
+/* ── Breadcrumbs ────────────────────────────────────────────── */
+.aseo-breadcrumbs { font-size: 13px; color: #666; }
+.aseo-breadcrumbs ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px; }
+.aseo-breadcrumbs li { display: inline; }
+.aseo-breadcrumbs li + li::before { content: '/'; margin-right: 4px; color: #aaa; }
+
+/* ── FAQ Shortcode ──────────────────────────────────────────── */
+.aseo-faq { border: 1px solid #e5e5e5; border-radius: 6px; overflow: hidden; margin: 1.5em 0; }
+.aseo-faq-item { border-bottom: 1px solid #e5e5e5; padding: 16px 20px; }
+.aseo-faq-item:last-child { border-bottom: none; }
+.aseo-faq-question { margin: 0 0 8px; font-size: 15px; font-weight: 600; }
+.aseo-faq-answer { margin: 0; color: #555; font-size: 14px; line-height: 1.6; }
+
+/* ── HowTo Shortcode ────────────────────────────────────────── */
+.aseo-howto { margin: 1.5em 0; }
+.aseo-howto-title { margin: 0 0 6px; font-size: 1.2em; }
+.aseo-howto-desc { margin: 0 0 14px; color: #666; }
+.aseo-howto-steps { display: flex; flex-direction: column; gap: 12px; }
+.aseo-howto-step {
+	display: flex;
+	gap: 14px;
+	align-items: flex-start;
+	padding: 14px 16px;
+	border: 1px solid #e5e5e5;
+	border-radius: 6px;
+}
+.aseo-howto-step-num {
+	flex-shrink: 0;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	background: #2271b1;
+	color: #fff;
+	font-weight: 700;
+	font-size: 14px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.aseo-howto-step-body { flex: 1; min-width: 0; }
+.aseo-howto-step-name { display: block; font-weight: 600; margin-bottom: 4px; }
+.aseo-howto-step-text { margin: 0; color: #444; }
+.aseo-howto-step-img { max-width: 100%; border-radius: 4px; margin-top: 10px; display: block; }
+
+/* ── Event Card Shortcode ───────────────────────────────────── */
+.aseo-event-card {
+	border: 1px solid #e5e5e5;
+	border-radius: 6px;
+	padding: 18px 20px;
+	margin: 1.5em 0;
+	background: #fafafa;
+}
+.aseo-event-name { font-size: 1.2em; font-weight: 700; margin-bottom: 6px; }
+.aseo-event-meta { font-size: 13px; color: #666; margin-bottom: 10px; }
+.aseo-event-date { font-weight: 600; color: #333; }
+.aseo-event-loc { color: #555; }
+.aseo-event-desc { margin: 0 0 12px; color: #444; font-size: 14px; }
+.aseo-event-link {
+	display: inline-block;
+	padding: 7px 16px;
+	background: #2271b1;
+	color: #fff;
+	text-decoration: none;
+	border-radius: 4px;
+	font-size: 13px;
+	font-weight: 600;
+}
+.aseo-event-link:hover { background: #135e96; color: #fff; }
+
+/* ── Table of Contents ──────────────────────────────────────── */
+.aseo-toc {
+	background: transparent;
+	border: 1px solid #dcdcde;
+	border-radius: 6px;
+	padding: 16px 20px;
+	margin: 1.5em 0;
+	display: inline-block;
+	min-width: 240px;
+	max-width: 100%;
+}
+.aseo-toc-no-border { border: none; }
+.aseo-toc-title {
+	font-weight: 700;
+	margin: 0 0 10px;
+	font-size: 14px;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	color: #333;
+}
+.aseo-toc-list {
+	margin: 0;
+	padding: 0 0 0 18px;
+	font-size: 14px;
+}
+.aseo-toc-list li { margin-bottom: 5px; }
+.aseo-toc-list a { text-decoration: none; color: #2271b1; }
+.aseo-toc-list a:hover { text-decoration: underline; }
+.aseo-toc-sub { margin-left: 16px; font-size: 13px; }

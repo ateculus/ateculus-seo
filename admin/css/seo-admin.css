@@ -1,0 +1,352 @@
+/* Ateculus-SEO Admin Styles */
+
+/* ── Always-visible meta box ─────────────────────────────────── */
+#ateculus_seo .postbox-header .handle-actions,
+#ateculus_seo .postbox-header .handlediv,
+#ateculus_seo .postbox-header .toggle-indicator {
+	display: none !important;
+}
+#ateculus_seo .postbox-header {
+	cursor: default !important;
+	pointer-events: none;
+}
+/* Force content visible even if WP saves a "closed" state for this box */
+#ateculus_seo.postbox .inside,
+#ateculus_seo.postbox.closed .inside {
+	display: block !important;
+}
+
+/* ── Meta Box Wrap ─────────────────────────────────────────── */
+.aseo-wrap { padding: 4px 0; font-size: 13px; }
+
+/* ── Score Bar ──────────────────────────────────────────────── */
+.aseo-score-bar {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 12px;
+	padding: 10px 14px;
+	background: #f9f9f9;
+	border: 1px solid #e0e0e0;
+	border-radius: 4px;
+}
+.aseo-score-label { font-weight: 600; white-space: nowrap; min-width: 80px; }
+.aseo-score-track {
+	flex: 1;
+	height: 12px;
+	background: #ddd;
+	border-radius: 6px;
+	overflow: hidden;
+}
+.aseo-score-fill {
+	height: 100%;
+	border-radius: 6px;
+	transition: width 0.4s ease;
+}
+.aseo-score-green  { background: #46b450; }
+.aseo-score-orange { background: #ffb900; }
+.aseo-score-red    { background: #dc3232; }
+.aseo-score-num { font-weight: 600; white-space: nowrap; min-width: 52px; text-align: right; }
+
+/* ── Tips ───────────────────────────────────────────────────── */
+.aseo-tips {
+	margin: 0 0 14px;
+	padding: 0 0 0 18px;
+	list-style: disc;
+	color: #666;
+	font-size: 12px;
+}
+.aseo-tips li { margin-bottom: 3px; }
+
+/* ── Keyword analysis ───────────────────────────────────────── */
+.aseo-kw-analysis {
+	background: #f6f7f7;
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+	padding: 10px 14px;
+	margin-bottom: 24px;
+}
+.aseo-kw-analysis-title { font-weight: 600; font-size: 12px; margin-bottom: 7px; color: #1d2327; }
+.aseo-kw-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.aseo-kw-table thead th {
+	text-align: center;
+	font-weight: 600;
+	font-size: 12px;
+	color: #50575e;
+	padding: 7px 10px;
+	border-bottom: 2px solid #dcdcde;
+	white-space: nowrap;
+	background: #f6f7f7;
+}
+.aseo-kw-table thead th:first-child { text-align: left; padding-left: 12px; }
+.aseo-kw-table tbody tr { border-bottom: 1px solid #ebebeb; }
+.aseo-kw-table tbody tr:last-child { border-bottom: none; }
+.aseo-kw-table tbody tr:hover { background: #f9f9f9; }
+.aseo-kw-phrase-cell { padding: 9px 10px 9px 12px; color: #1d2327; font-weight: 500; }
+.aseo-kw-cell { text-align: center; padding: 9px 10px; }
+.aseo-kw-dot { font-weight: 700; font-size: 14px; }
+.aseo-kw-dot-pass { color: #46b450; }
+.aseo-kw-dot-fail { color: #dc3232; }
+.aseo-kw-primary-badge {
+	display: inline-block;
+	background: #dcdcde;
+	color: #50575e;
+	font-size: 10px;
+	font-weight: 700;
+	padding: 2px 6px;
+	border-radius: 3px;
+	margin-right: 6px;
+	vertical-align: middle;
+	min-width: 18px;
+	text-align: center;
+}
+.aseo-kw-density-ok   { color: #46b450; font-weight: 600; }
+.aseo-kw-density-warn { color: #dc3232; font-weight: 600; }
+
+/* ── Content stats (links + images) ─────────────────────────── */
+.aseo-content-stats {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin: 10px 0 14px;
+}
+.aseo-content-stat {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	background: #f6f7f7;
+	border: 1px solid #dcdcde;
+	border-radius: 3px;
+	padding: 4px 10px;
+	font-size: 12px;
+}
+.aseo-content-stat-label { color: #757575; }
+.aseo-content-stat-value { font-weight: 700; }
+.aseo-stat-ok   { color: #46b450; }
+.aseo-stat-warn { color: #dc3232; }
+
+/* ── Readability stats ──────────────────────────────────────── */
+.aseo-read-stats {
+	font-size: 12px;
+	color: #757575;
+	margin: 8px 0 12px;
+}
+
+/* ── Tabs ───────────────────────────────────────────────────── */
+.aseo-tabs {
+	display: flex;
+	gap: 2px;
+	border-bottom: 2px solid #dcdcde;
+	margin-bottom: 16px;
+}
+.aseo-tab {
+	background: none;
+	border: none;
+	padding: 7px 16px;
+	cursor: pointer;
+	font-size: 13px;
+	color: #50575e;
+	border-bottom: 2px solid transparent;
+	margin-bottom: -2px;
+	border-radius: 2px 2px 0 0;
+}
+.aseo-tab:hover { color: #1d2327; }
+.aseo-tab.active { color: #1d2327; border-bottom-color: #2271b1; font-weight: 600; }
+.aseo-tab-content { display: none; }
+.aseo-tab-content.active { display: block; }
+
+/* ── Fields ─────────────────────────────────────────────────── */
+.aseo-field { margin-bottom: 16px; }
+.aseo-field label {
+	display: block;
+	font-weight: 600;
+	margin-bottom: 5px;
+	color: #1d2327;
+}
+.aseo-field input[type="text"],
+.aseo-field input[type="url"],
+.aseo-field textarea { width: 100%; box-sizing: border-box; }
+.aseo-field-row label { display: flex; align-items: center; gap: 7px; font-weight: normal; }
+.aseo-hint { color: #757575; font-size: 12px; margin: 4px 0 0; }
+.aseo-hint-inline { color: #757575; font-weight: normal; font-size: 11px; }
+
+/* ── Counters ───────────────────────────────────────────────── */
+.aseo-counter { font-weight: normal; font-size: 11px; color: #757575; }
+.aseo-counter.good  { color: #46b450; }
+.aseo-counter.warn  { color: #ffb900; }
+.aseo-counter.over  { color: #dc3232; }
+
+/* ── Snippet Preview ─────────────────────────────────────────── */
+.aseo-snippet-preview {
+	margin-top: 10px;
+	padding: 12px 14px;
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+	background: #fff;
+	font-family: Arial, sans-serif;
+	max-width: 600px;
+}
+.aseo-snippet-title {
+	font-size: 18px;
+	color: #1a0dab;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.aseo-snippet-url { font-size: 12px; color: #006621; margin: 2px 0; }
+.aseo-snippet-desc { font-size: 13px; color: #545454; line-height: 1.5; margin-top: 2px; }
+
+/* ── OG Image picker ────────────────────────────────────────── */
+.aseo-og-image-wrap { display: flex; align-items: flex-start; gap: 10px; flex-wrap: wrap; }
+.aseo-og-preview {
+	width: 120px;
+	height: 63px;
+	object-fit: cover;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+}
+
+/* ── FAQ help box (meta box) ────────────────────────────────── */
+.aseo-faq-help {
+	background: #f6f7f7;
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+	padding: 12px 14px;
+	margin-top: 12px;
+}
+.aseo-faq-help p { margin: 0 0 8px; }
+.aseo-faq-table { border-collapse: collapse; margin: 8px 0; width: 100%; }
+.aseo-faq-table tr { border-bottom: 1px solid #ebebeb; }
+.aseo-faq-table tr:last-child { border-bottom: none; }
+.aseo-faq-table td { padding: 5px 8px; vertical-align: middle; }
+.aseo-faq-table td:first-child { white-space: nowrap; }
+
+/* ── FAQ shortcode front-end ────────────────────────────────── */
+.aseo-faq { border: 1px solid #eee; border-radius: 4px; overflow: hidden; margin: 1.5em 0; }
+.aseo-faq-item { border-bottom: 1px solid #eee; padding: 14px 18px; }
+.aseo-faq-item:last-child { border-bottom: none; }
+.aseo-faq-question { margin: 0 0 8px; font-size: 15px; }
+.aseo-faq-answer { color: #444; font-size: 14px; }
+
+/* ── Post list Links column ─────────────────────────────────── */
+.aseo-links-col { font-size: 11px; white-space: nowrap; }
+.aseo-links-int, .aseo-links-ext { display: inline-block; padding: 1px 5px; border-radius: 3px; background: #f0f0f1; color: #50575e; }
+.aseo-links-zero { background: #fef2f2; color: #dc3232; }
+
+/* ── Post list SEO column dot ───────────────────────────────── */
+.aseo-col-dot {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 34px;
+	height: 22px;
+	border-radius: 3px;
+	font-size: 11px;
+	font-weight: 700;
+	color: #fff;
+	cursor: default;
+}
+.aseo-col-green  { background: #46b450; }
+.aseo-col-orange { background: #ffb900; }
+.aseo-col-red    { background: #dc3232; }
+.aseo-col-gray   { background: #999; }
+
+/* ── Bulk Editor ────────────────────────────────────────────── */
+.aseo-bulk-toolbar { margin: 12px 0 8px; }
+.aseo-bulk-table td, .aseo-bulk-table th { vertical-align: top; padding: 8px 10px; }
+.aseo-bulk-table textarea { resize: vertical; }
+.aseo-bulk-counter {
+	font-size: 11px;
+	color: #999;
+	display: inline-block;
+	margin-top: 2px;
+}
+.aseo-bulk-counter.good { color: #46b450; }
+.aseo-bulk-counter.warn { color: #ffb900; }
+.aseo-bulk-counter.over { color: #dc3232; }
+.aseo-noindex-badge {
+	display: inline-block;
+	background: #f0f0f1;
+	color: #757575;
+	font-size: 10px;
+	padding: 1px 5px;
+	border-radius: 2px;
+	margin-top: 3px;
+}
+.aseo-center { text-align: center; }
+tr.aseo-row-saved { background: #edfaef !important; transition: background 0.8s ease; }
+
+/* ── Dashboard Widget ───────────────────────────────────────── */
+.aseo-widget-counts {
+	display: flex;
+	gap: 12px;
+	margin-bottom: 12px;
+}
+.aseo-wcount {
+	flex: 1;
+	text-align: center;
+	padding: 10px 6px;
+	border-radius: 4px;
+	color: #fff;
+}
+.aseo-wcount-green  { background: #46b450; }
+.aseo-wcount-orange { background: #ffb900; }
+.aseo-wcount-red    { background: #dc3232; }
+.aseo-wnum  { display: block; font-size: 24px; font-weight: 700; line-height: 1; }
+.aseo-wlbl  { display: block; font-size: 11px; margin-top: 3px; }
+.aseo-widget-list { margin: 0 0 10px; padding: 0 0 0 16px; font-size: 12px; color: #555; }
+.aseo-widget-list li { margin-bottom: 3px; }
+
+/* ── Gutenberg Sidebar ──────────────────────────────────────── */
+.aseo-gb-score-wrap {
+	margin-bottom: 12px;
+}
+.aseo-gb-score-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 6px;
+}
+.aseo-gb-score-label { font-weight: 600; font-size: 13px; }
+.aseo-gb-track {
+	height: 8px;
+	background: #ddd;
+	border-radius: 4px;
+	overflow: hidden;
+}
+.aseo-gb-fill {
+	height: 100%;
+	border-radius: 4px;
+	transition: width 0.3s ease;
+}
+.aseo-gb-tips {
+	margin: 0 0 12px;
+	padding: 0 0 0 16px;
+	font-size: 12px;
+	color: #757575;
+}
+.aseo-gb-tips li { margin-bottom: 3px; }
+.aseo-gb-field { margin-bottom: 8px; }
+.aseo-gb-label {
+	display: block;
+	font-size: 11px;
+	font-weight: 600;
+	text-transform: uppercase;
+	color: #1e1e1e;
+	margin-bottom: 4px;
+}
+.aseo-gb-og-preview {
+	width: 100%;
+	max-height: 120px;
+	object-fit: cover;
+	border-radius: 3px;
+	border: 1px solid #ddd;
+	display: block;
+	margin-bottom: 4px;
+}
+.aseo-gb-hint { font-size: 11px; color: #757575; margin: 6px 0 0; }
+
+/* ── Breadcrumbs (front-end) ────────────────────────────────── */
+.aseo-breadcrumbs { font-size: 13px; }
+.aseo-breadcrumbs ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px; }
+.aseo-breadcrumbs li { display: inline; }
