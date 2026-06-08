@@ -1,6 +1,7 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+// Handles XML sitemap generation, rewrite rules, and Google pinging.
 class Ateculus_SEO_Sitemap {
 
 	public function __construct() {
