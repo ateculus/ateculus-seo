@@ -64,6 +64,7 @@ class Ateculus_SEO_Settings {
 		add_submenu_page( 'ateculus-seo', 'Redirects',     'Redirects',    'manage_options', 'ateculus-seo-redirects',array( new Ateculus_SEO_Redirects(), 'render_page' ) );
 		add_submenu_page( 'ateculus-seo', '404 Monitor',   '404 Monitor',  'manage_options', 'ateculus-seo-404',      array( new Ateculus_SEO_404_Monitor(), 'render_page' ) );
 		add_submenu_page( 'ateculus-seo', 'robots.txt',    'robots.txt',   'manage_options', 'ateculus-seo-robots',   array( new Ateculus_SEO_Robots_Editor(), 'render_page' ) );
+		add_submenu_page( 'ateculus-seo', 'AI Suggestions', 'AI Suggestions','manage_options', 'ateculus-seo-ai',       array( $this, 'render_ai_page' ) );
 		add_submenu_page( 'ateculus-seo', 'Tools',         'Tools',        'manage_options', 'ateculus-seo-tools',    array( new Ateculus_SEO_Importer(), 'render_page' ) );
 		add_submenu_page( 'ateculus-seo', 'Help',          'Help',         'manage_options', 'ateculus-seo-help',     array( $this, 'render_help_page' ) );
 	}
@@ -87,6 +88,15 @@ class Ateculus_SEO_Settings {
 		add_settings_section( 'aseo_indexnow', 'IndexNow — Instant Indexing', array( $this, 'indexnow_section_desc' ), 'aseo_settings' );
 		add_settings_field( 'indexnow_enabled', 'Enable IndexNow', array( $this, 'f_indexnow_enabled' ), 'aseo_settings', 'aseo_indexnow' );
 		add_settings_field( 'indexnow_info',    'Site Token &amp; Status', array( $this, 'f_indexnow_info' ), 'aseo_settings', 'aseo_indexnow' );
+
+		// --- AI Suggestions (own submenu page, own option key) ---
+		register_setting( 'aseo_ai_settings', 'aseo_ai_options', array( 'sanitize_callback' => array( $this, 'sanitize_ai_options' ) ) );
+		add_settings_section( 'aseo_ai', 'AI Suggestions', array( $this, 'ai_section_desc' ), 'aseo_ai_page' );
+		add_settings_field( 'ai_provider',    'AI Provider',    array( $this, 'f_ai_provider' ),    'aseo_ai_page', 'aseo_ai' );
+		add_settings_field( 'groq_api_key',   'Groq API Key',   array( $this, 'f_groq_api_key' ),   'aseo_ai_page', 'aseo_ai' );
+		add_settings_field( 'groq_model',     'Groq Model',     array( $this, 'f_groq_model' ),     'aseo_ai_page', 'aseo_ai' );
+		add_settings_field( 'gemini_api_key', 'Gemini API Key', array( $this, 'f_gemini_api_key' ), 'aseo_ai_page', 'aseo_ai' );
+		add_settings_field( 'gemini_model',   'Gemini Model',   array( $this, 'f_gemini_model' ),   'aseo_ai_page', 'aseo_ai' );
 
 		// --- Analytics ---
 		add_settings_section( 'aseo_analytics', 'Analytics', null, 'aseo_settings' );
@@ -147,8 +157,8 @@ class Ateculus_SEO_Settings {
 			$clean[ 'org_hours_' . $d . '_closed' ] = ! empty( $input[ 'org_hours_' . $d . '_closed' ] ) ? '1' : '';
 		}
 		$clean['indexnow_enabled']  = ! empty( $input['indexnow_enabled'] ) ? '1' : '';
-		// Preserve the auto-generated key — never overwrite from form input
 		$existing = get_option( 'aseo_options', array() );
+		// Preserve the auto-generated IndexNow key — never overwrite from form input
 		if ( ! empty( $existing['indexnow_key'] ) ) {
 			$clean['indexnow_key'] = $existing['indexnow_key'];
 		}
@@ -642,5 +652,147 @@ class Ateculus_SEO_Settings {
 	public function action_links( $links ) {
 		array_unshift( $links, '<a href="' . admin_url( 'admin.php?page=ateculus-seo' ) . '">Settings</a>' );
 		return $links;
+	}
+
+	public function render_ai_page() {
+		if ( ! current_user_can( 'manage_options' ) ) return;
+		?>
+		<div class="wrap">
+			<h1>AI Suggestions</h1>
+			<form method="post" action="options.php">
+				<?php
+				settings_fields( 'aseo_ai_settings' );
+				do_settings_sections( 'aseo_ai_page' );
+				submit_button( 'Save AI Settings' );
+				?>
+			</form>
+		</div>
+		<?php
+	}
+
+	public function sanitize_ai_options( $input ) {
+		$existing = get_option( 'aseo_ai_options', array() );
+		$clean    = array();
+
+		$clean['ai_provider'] = in_array( $input['ai_provider'] ?? 'groq', array( 'groq', 'gemini' ), true )
+			? $input['ai_provider']
+			: 'groq';
+
+		// Groq
+		$submitted = sanitize_text_field( $input['groq_api_key'] ?? '' );
+		$clean['groq_api_key'] = $submitted !== '' ? $submitted : ( $existing['groq_api_key'] ?? '' );
+
+		$allowed_groq = array( 'llama-3.1-8b-instant', 'llama-3.3-70b-versatile' );
+		$clean['groq_model'] = in_array( $input['groq_model'] ?? '', $allowed_groq, true )
+			? $input['groq_model']
+			: 'llama-3.1-8b-instant';
+
+		// Gemini
+		$submitted = sanitize_text_field( $input['gemini_api_key'] ?? '' );
+		$clean['gemini_api_key'] = $submitted !== '' ? $submitted : ( $existing['gemini_api_key'] ?? '' );
+
+		$allowed_gemini = array( 'gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-2.0-flash-lite', 'gemini-2.5-flash-lite', 'gemini-2.5-pro' );
+		$clean['gemini_model'] = in_array( $input['gemini_model'] ?? '', $allowed_gemini, true )
+			? $input['gemini_model']
+			: 'gemini-2.5-flash';
+
+		return $clean;
+	}
+
+	// ── AI Suggestions ────────────────────────────────────────────────
+
+	public function ai_section_desc() {
+		echo '<p>Choose an AI provider and enter your API key to enable one-click SEO suggestions in the post editor. <strong>Groq is recommended</strong> — free account at <a href="https://console.groq.com" target="_blank">console.groq.com</a>, no credit card required.</p>';
+	}
+
+	private function ai_opt( $key, $default = '' ) {
+		$opts = get_option( 'aseo_ai_options', array() );
+		return $opts[ $key ] ?? $default;
+	}
+
+	public function f_ai_provider() {
+		$val = $this->ai_opt( 'ai_provider', 'groq' );
+		?>
+		<select name="aseo_ai_options[ai_provider]" id="aseo_ai_provider_select"
+		        onchange="aseoToggleAIProvider(this.value)">
+			<option value="groq"   <?php selected( $val, 'groq' ); ?>>Groq (Recommended — Free)</option>
+			<option value="gemini" <?php selected( $val, 'gemini' ); ?>>Google Gemini</option>
+		</select>
+		<script>
+		function aseoToggleAIProvider(val) {
+			document.querySelectorAll('.aseo-groq-only').forEach(function(el) {
+				var tr = el.closest('tr');
+				if (tr) tr.style.display = val === 'groq' ? '' : 'none';
+			});
+			document.querySelectorAll('.aseo-gemini-only').forEach(function(el) {
+				var tr = el.closest('tr');
+				if (tr) tr.style.display = val === 'gemini' ? '' : 'none';
+			});
+		}
+		document.addEventListener('DOMContentLoaded', function() {
+			var sel = document.getElementById('aseo_ai_provider_select');
+			if (sel) aseoToggleAIProvider(sel.value);
+		});
+		</script>
+		<?php
+	}
+
+	public function f_groq_api_key() {
+		$val = $this->ai_opt( 'groq_api_key', '' );
+		?>
+		<div class="aseo-groq-only">
+			<input type="password" class="regular-text" name="aseo_ai_options[groq_api_key]"
+			       value="<?php echo esc_attr( $val ); ?>"
+			       placeholder="gsk_..."
+			       autocomplete="new-password" />
+			<p class="description">
+				Free key at <a href="https://console.groq.com/keys" target="_blank">console.groq.com</a>. No credit card required. Leave blank to keep the existing key.
+			</p>
+		</div>
+		<?php
+	}
+
+	public function f_groq_model() {
+		$val    = $this->ai_opt( 'groq_model', 'llama-3.1-8b-instant' );
+		$models = array(
+			'llama-3.1-8b-instant'    => '[Free] Llama 3.1 8B — Fast, ~429 req/day',
+			'llama-3.3-70b-versatile' => '[Free] Llama 3.3 70B — More capable, ~85 req/day',
+		);
+		echo '<div class="aseo-groq-only"><select name="aseo_ai_options[groq_model]">';
+		foreach ( $models as $id => $label ) {
+			echo '<option value="' . esc_attr( $id ) . '" ' . selected( $val, $id, false ) . '>' . esc_html( $label ) . '</option>';
+		}
+		echo '</select></div>';
+	}
+
+	public function f_gemini_api_key() {
+		$val = $this->ai_opt( 'gemini_api_key', '' );
+		?>
+		<div class="aseo-gemini-only">
+			<input type="password" class="regular-text" name="aseo_ai_options[gemini_api_key]"
+			       value="<?php echo esc_attr( $val ); ?>"
+			       placeholder="AIza..."
+			       autocomplete="new-password" />
+			<p class="description">
+				Free key at <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com</a>. Leave blank to keep the existing key.
+			</p>
+		</div>
+		<?php
+	}
+
+	public function f_gemini_model() {
+		$val    = $this->ai_opt( 'gemini_model', 'gemini-2.5-flash' );
+		$models = array(
+			'gemini-2.5-flash'      => '[Free] Gemini 2.5 Flash — Latest, 20 req/day',
+			'gemini-2.0-flash'      => '[Free] Gemini 2.0 Flash — Fast, 200 req/day',
+			'gemini-2.0-flash-lite' => '[Free] Gemini 2.0 Flash Lite — Lightest, 1500 req/day',
+			'gemini-2.5-flash-lite' => '[Free] Gemini 2.5 Flash Lite — Latest lite, 500 req/day',
+			'gemini-2.5-pro'        => '[Paid] Gemini 2.5 Pro — Most capable',
+		);
+		echo '<div class="aseo-gemini-only"><select name="aseo_ai_options[gemini_model]">';
+		foreach ( $models as $id => $label ) {
+			echo '<option value="' . esc_attr( $id ) . '" ' . selected( $val, $id, false ) . '>' . esc_html( $label ) . '</option>';
+		}
+		echo '</select></div>';
 	}
 }

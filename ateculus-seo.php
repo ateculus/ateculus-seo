@@ -3,7 +3,7 @@
  * Plugin Name: Ateculus-SEO
  * Plugin URI:  https://ateculus.com
  * Description: Lightweight SEO tools for posts/pages, XML sitemaps, redirects, schema, and analytics integration.
- * Version:     1.2.5
+ * Version:     1.3.0
  * Requires at least: 6.0
  * Tested up to:      7.0
  * Requires PHP:      8.0
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'ATECULUS_SEO_VERSION',    '1.2.5' );
+define( 'ATECULUS_SEO_VERSION',    '1.3.0' );
 define( 'ATECULUS_SEO_DB_VERSION', '1.0' );
 define( 'ATECULUS_SEO_PATH',       plugin_dir_path( __FILE__ ) );
 define( 'ATECULUS_SEO_URL',        plugin_dir_url( __FILE__ ) );
@@ -55,6 +55,9 @@ require_once ATECULUS_SEO_PATH . 'includes/class-ga-gtm.php';
 
 // IndexNow
 require_once ATECULUS_SEO_PATH . 'includes/class-indexnow.php';
+
+// AI SEO Suggestions
+require_once ATECULUS_SEO_PATH . 'includes/class-ai-suggest.php';
 
 // Admin tools
 require_once ATECULUS_SEO_PATH . 'includes/class-bulk-editor.php';
@@ -102,4 +105,5 @@ add_action( 'plugins_loaded', function () {
 	new Ateculus_SEO_Bulk_Editor();
 	new Ateculus_SEO_Importer();
 	new Ateculus_SEO_IndexNow();
+	new Ateculus_SEO_AI_Suggest();
 } );

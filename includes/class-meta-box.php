@@ -57,6 +57,13 @@ class Ateculus_SEO_Meta_Box {
 			ATECULUS_SEO_VERSION,
 			true
 		);
+
+		global $post;
+		wp_localize_script( 'ateculus-seo-admin', 'aseoAI', array(
+			'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+			'nonce'   => wp_create_nonce( 'aseo_ai_suggest' ),
+			'postId'  => $post ? $post->ID : 0,
+		) );
 	}
 
 	private function get_meta( $post_id, $key ) {
@@ -99,6 +106,24 @@ class Ateculus_SEO_Meta_Box {
 
 			<!-- General Tab -->
 			<div class="aseo-tab-content active" id="aseo-tab-general">
+
+				<?php
+				$_aseo_opts     = get_option( 'aseo_ai_options', array() );
+				$_aseo_provider = $_aseo_opts['ai_provider'] ?? 'groq';
+				$_aseo_has_key  = ( $_aseo_provider === 'gemini' )
+					? ! empty( $_aseo_opts['gemini_api_key'] )
+					: ! empty( $_aseo_opts['groq_api_key'] );
+				if ( $_aseo_has_key ) :
+				?>
+				<div class="aseo-ai-bar">
+					<button type="button" id="aseo-ai-suggest-btn" class="button button-primary">
+						&#10024; Suggest with AI
+					</button>
+					<span id="aseo-ai-spinner" class="spinner" style="float:none;vertical-align:middle;margin:0 4px;display:none"></span>
+					<span id="aseo-ai-error" style="display:none;color:#dc3232;font-size:12px;margin-left:4px"></span>
+					<span class="aseo-hint" style="margin-left:4px">Auto-fills all fields below from your post content.</span>
+				</div>
+				<?php endif; ?>
 
 				<?php if ( ! empty( $seo_data['tips'] ) ) : ?>
 				<ul class="aseo-tips">

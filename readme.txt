@@ -4,7 +4,7 @@ Tags: seo, sitemap, meta, open graph, schema, redirects, analytics, breadcrumbs,
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.2
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -181,6 +181,16 @@ Go to **Ateculus-SEO > Tools** and click **Import from Yoast**. This copies all 
 8. Dashboard widget showing SEO health overview.
 
 == Changelog ==
+
+= 1.3.0 =
+* Added AI Suggestions — one-click auto-fill of focus keyphrases, SEO title, meta description, and meta keywords from post content
+* Added Groq AI provider (free, no credit card) with Llama 3.1 8B and Llama 3.3 70B model options
+* Added Google Gemini provider with 2.0 Flash, 2.5 Flash, 2.5 Flash Lite, and 2.5 Pro model options
+* Added AI Suggestions settings page (Ateculus SEO → AI Suggestions) with provider dropdown and per-provider API key fields
+* Suggest with AI button is hidden in the meta box when no API key is configured
+* Keyphrases are extracted server-side from article H2/H3 headings — guarantees all suggested keyphrases exist verbatim in the content
+* Supports up to 3 comma-separated focus keyphrases; primary keyphrase is placed verbatim in title and description for maximum score impact
+* Provider fields (Groq / Gemini) show/hide dynamically based on selected provider
 
 = 1.2.5 =
 * Fixed GA4 snippet to use official Google tag format with `<!-- Google tag (gtag.js) -->` comment and multi-line output

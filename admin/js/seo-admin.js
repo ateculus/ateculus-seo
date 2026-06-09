@@ -135,4 +135,41 @@
 	}
 
 
+	// ---------- AI Suggest ----------
+	$(document).on('click', '#aseo-ai-suggest-btn', function () {
+		if (typeof aseoAI === 'undefined') return;
+
+		var $btn     = $(this);
+		var $spinner = $('#aseo-ai-spinner');
+		var $err     = $('#aseo-ai-error');
+
+		$btn.prop('disabled', true);
+		$spinner.show();
+		$err.hide().text('');
+
+		$.post(aseoAI.ajaxUrl, {
+			action:  'aseo_ai_suggest',
+			nonce:   aseoAI.nonce,
+			post_id: aseoAI.postId
+		})
+		.done(function (res) {
+			if (res.success) {
+				var d = res.data;
+				if (d.focus_kw)    $('#aseo_focus_kw').val(d.focus_kw);
+				if (d.title)       $('#aseo_title').val(d.title).trigger('input');
+				if (d.description) $('#aseo_description').val(d.description).trigger('input');
+				if (d.keywords)    $('#aseo_keywords').val(d.keywords);
+			} else {
+				$err.text(res.data || 'AI suggestion failed. Please try again.').show();
+			}
+		})
+		.fail(function () {
+			$err.text('Request failed. Check your connection and try again.').show();
+		})
+		.always(function () {
+			$btn.prop('disabled', false);
+			$spinner.hide();
+		});
+	});
+
 }(jQuery));
